@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: emperor_secret_password_2026
       POSTGRES_DB: emperor_assessment
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
