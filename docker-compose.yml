@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: emperor_assessment_db
+    restart: always
+    environment:
+      POSTGRES_USER: emperor_admin
+      POSTGRES_PASSWORD: emperor_secret_password_2026
+      POSTGRES_DB: emperor_assessment
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: emperor_assessment_backend
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://emperor_admin:emperor_secret_password_2026@postgres:5432/emperor_assessment?schema=public
+      JWT_SECRET: emperor_smart_solutions_secret_jwt_key_2026_enterprise
+      JWT_EXPIRES_IN: 7d
+      PORT: 5000
+      CORS_ORIGIN: http://localhost:3000
+    ports:
+      - '5000:5000'
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: emperor_assessment_frontend
+    restart: always
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:5000/api
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
