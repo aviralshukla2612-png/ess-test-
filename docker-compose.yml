@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: emperor_secret_password_2026
       POSTGRES_DB: emperor_assessment
     ports:
-      - '5433:5432'
+      - '5439:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -25,7 +25,7 @@ services:
       PORT: 5000
       CORS_ORIGIN: '*'
     ports:
-      - '5001:5000'
+      - '5090:5000'
     depends_on:
       - postgres
 
@@ -34,13 +34,13 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: http://187.127.158.24:5001/api
+        NEXT_PUBLIC_API_URL: http://187.127.158.24:5090/api
     container_name: emperor_assessment_frontend
     restart: always
     environment:
-      NEXT_PUBLIC_API_URL: http://187.127.158.24:5001/api
+      NEXT_PUBLIC_API_URL: http://187.127.158.24:5090/api
     ports:
-      - '3005:3000'
+      - '3090:3000'
     depends_on:
       - backend
 
