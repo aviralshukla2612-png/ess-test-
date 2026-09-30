@@ -23,9 +23,9 @@ services:
       JWT_SECRET: emperor_smart_solutions_secret_jwt_key_2026_enterprise
       JWT_EXPIRES_IN: 7d
       PORT: 5000
-      CORS_ORIGIN: http://localhost:3000
+      CORS_ORIGIN: '*'
     ports:
-      - '5000:5000'
+      - '5001:5000'
     depends_on:
       - postgres
 
@@ -33,12 +33,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://187.127.158.24:5001/api
     container_name: emperor_assessment_frontend
     restart: always
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:5000/api
+      NEXT_PUBLIC_API_URL: http://187.127.158.24:5001/api
     ports:
-      - '3000:3000'
+      - '3005:3000'
     depends_on:
       - backend
 
