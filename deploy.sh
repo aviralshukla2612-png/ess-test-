@@ -5,6 +5,16 @@ echo "=========================================="
 echo "🚀 Starting Live Deployment..."
 echo "=========================================="
 
+# 0. Check listening ports on the host
+echo "🔍 Checking active listening ports on host server..."
+if command -v ss >/dev/null 2>&1; then
+    echo "Active listening TCP ports:"
+    ss -tuln | grep LISTEN || true
+elif command -v netstat >/dev/null 2>&1; then
+    echo "Active listening TCP ports:"
+    netstat -tuln | grep LISTEN || true
+fi
+
 # 1. Fetch & pull latest code from git
 echo "📥 Fetching and pulling latest changes from Git repository..."
 git pull origin main
